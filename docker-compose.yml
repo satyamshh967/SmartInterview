@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  evaluator-service:
+    build:
+      context: ./evaluator-service
+      dockerfile: Dockerfile
+    container_name: interview-evaluator
+    ports:
+      - "8082:8082"
+    environment:
+      - PORT=8082
+    restart: unless-stopped
+
+  nlp-service:
+    build:
+      context: ./nlp-service
+      dockerfile: Dockerfile
+    container_name: interview-nlp
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: interview-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - EVALUATOR_URL=http://evaluator-service:8082
+      - NLP_URL=http://nlp-service:8081
+    depends_on:
+      - evaluator-service
+      - nlp-service
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: interview-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped

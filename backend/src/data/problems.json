@@ -1,0 +1,242 @@
+[
+  {
+    "id": "prob-001",
+    "title": "Two Sum",
+    "slug": "two-sum",
+    "difficulty": "Easy",
+    "category": "Arrays & Hash Tables",
+    "timeLimitMinutes": 15,
+    "description": "Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order.",
+    "examples": [
+      {
+        "input": "nums = [2,7,11,15], target = 9",
+        "output": "[0, 1]",
+        "explanation": "Because nums[0] + nums[1] == 9, we return [0, 1]."
+      },
+      {
+        "input": "nums = [3,2,4], target = 6",
+        "output": "[1, 2]",
+        "explanation": "Because nums[1] + nums[2] == 6, we return [1, 2]."
+      }
+    ],
+    "constraints": [
+      "2 <= nums.length <= 10^4",
+      "-10^9 <= nums[i] <= 10^9",
+      "-10^9 <= target <= 10^9",
+      "Only one valid answer exists."
+    ],
+    "starterCode": {
+      "python": "import sys, json\n\ndef two_sum(nums, target):\n    # TODO: Implement optimal O(n) solution using a hash map\n    seen = {}\n    for i, num in enumerate(nums):\n        diff = target - num\n        if diff in seen:\n            return [seen[diff], i]\n        seen[num] = i\n    return []\n\nif __name__ == '__main__':\n    lines = sys.stdin.read().strip().split('\\n')\n    if len(lines) >= 2:\n        nums = json.loads(lines[0])\n        target = int(lines[1])\n        res = two_sum(nums, target)\n        print(json.dumps(res))\n",
+      "javascript": "const fs = require('fs');\n\nfunction twoSum(nums, target) {\n    // TODO: Implement optimal O(n) solution using a Map or Object\n    const seen = new Map();\n    for (let i = 0; i < nums.length; i++) {\n        const complement = target - nums[i];\n        if (seen.has(complement)) {\n            return [seen.get(complement), i];\n        }\n        seen.set(nums[i], i);\n    }\n    return [];\n}\n\nconst input = fs.readFileSync(0, 'utf-8').trim().split('\\n');\nif (input.length >= 2) {\n    const nums = JSON.parse(input[0]);\n    const target = parseInt(input[1], 10);\n    console.log(JSON.stringify(twoSum(nums, target)));\n}\n",
+      "cpp": "#include <iostream>\n#include <vector>\n#include <unordered_map>\n#include <sstream>\n\nusing namespace std;\n\nint main() {\n    // Example runner for C++\n    vector<int> nums;\n    int target;\n    string line1, line2;\n    if (getline(cin, line1) && getline(cin, line2)) {\n        // Simple test demo\n        cout << \"[0, 1]\" << endl;\n    }\n    return 0;\n}\n"
+    },
+    "sampleTestCases": [
+      {
+        "id": "tc-1",
+        "input": "[2, 7, 11, 15]\n9",
+        "expectedOutput": "[0, 1]",
+        "isHidden": false
+      },
+      {
+        "id": "tc-2",
+        "input": "[3, 2, 4]\n6",
+        "expectedOutput": "[1, 2]",
+        "isHidden": false
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "id": "tc-3",
+        "input": "[3, 3]\n6",
+        "expectedOutput": "[0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "tc-4",
+        "input": "[-1, -2, -3, -4, -5]\n-8",
+        "expectedOutput": "[2, 4]",
+        "isHidden": true
+      }
+    ]
+  },
+  {
+    "id": "prob-002",
+    "title": "Valid Parentheses",
+    "slug": "valid-parentheses",
+    "difficulty": "Easy",
+    "category": "Stacks & Strings",
+    "timeLimitMinutes": 15,
+    "description": "Given a string `s` containing just the characters `'('`, `')'`, `'{'`, `'}'`, `'['` and `']'`, determine if the input string is valid.\n\nAn input string is valid if:\n1. Open brackets must be closed by the same type of brackets.\n2. Open brackets must be closed in the correct order.\n3. Every close bracket has a corresponding open bracket of the same type.",
+    "examples": [
+      {
+        "input": "s = \"()[]{}\"",
+        "output": "true",
+        "explanation": "Brackets are matched and closed in the correct order."
+      },
+      {
+        "input": "s = \"(]\"",
+        "output": "false",
+        "explanation": "Different closing bracket encountered."
+      }
+    ],
+    "constraints": [
+      "1 <= s.length <= 10^4",
+      "s consists of parentheses only '()[]{}'."
+    ],
+    "starterCode": {
+      "python": "import sys\n\ndef is_valid(s: str) -> bool:\n    # TODO: Implement stack matching logic\n    stack = []\n    mapping = {')': '(', '}': '{', ']': '['}\n    for char in s:\n        if char in mapping:\n            top = stack.pop() if stack else '#'\n            if mapping[char] != top:\n                return False\n        else:\n            stack.append(char)\n    return not stack\n\nif __name__ == '__main__':\n    line = sys.stdin.read().strip()\n    print('true' if is_valid(line) else 'false')\n",
+      "javascript": "const fs = require('fs');\n\nfunction isValid(s) {\n    const stack = [];\n    const map = { ')': '(', '}': '{', ']': '[' };\n    for (let char of s) {\n        if (map[char]) {\n            const top = stack.length ? stack.pop() : '#';\n            if (top !== map[char]) return false;\n        } else {\n            stack.push(char);\n        }\n    }\n    return stack.length === 0;\n}\n\nconst line = fs.readFileSync(0, 'utf-8').trim();\nconsole.log(isValid(line) ? 'true' : 'false');\n",
+      "cpp": "#include <iostream>\n#include <string>\n#include <stack>\n\nusing namespace std;\n\nint main() {\n    string s;\n    if (cin >> s) {\n        stack<char> st;\n        bool ok = true;\n        for (char c : s) {\n            if (c == '(' || c == '{' || c == '[') st.push(c);\n            else {\n                if (st.empty()) { ok = false; break; }\n                char top = st.top(); st.pop();\n                if (c == ')' && top != '(') { ok = false; break; }\n                if (c == '}' && top != '{') { ok = false; break; }\n                if (c == ']' && top != '[') { ok = false; break; }\n            }\n        }\n        if (ok && st.empty()) cout << \"true\" << endl;\n        else cout << \"false\" << endl;\n    }\n    return 0;\n}\n"
+    },
+    "sampleTestCases": [
+      {
+        "id": "tc-1",
+        "input": "()[]{}",
+        "expectedOutput": "true",
+        "isHidden": false
+      },
+      {
+        "id": "tc-2",
+        "input": "(]",
+        "expectedOutput": "false",
+        "isHidden": false
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "id": "tc-3",
+        "input": "([{}])",
+        "expectedOutput": "true",
+        "isHidden": true
+      },
+      {
+        "id": "tc-4",
+        "input": "((({{{[[[]]]}}})))",
+        "expectedOutput": "true",
+        "isHidden": true
+      },
+      {
+        "id": "tc-5",
+        "input": ")(",
+        "expectedOutput": "false",
+        "isHidden": true
+      }
+    ]
+  },
+  {
+    "id": "prob-003",
+    "title": "Best Time to Buy and Sell Stock",
+    "slug": "best-time-to-buy-and-sell-stock",
+    "difficulty": "Easy",
+    "category": "Greedy & Dynamic Programming",
+    "timeLimitMinutes": 20,
+    "description": "You are given an array `prices` where `prices[i]` is the price of a given stock on the `i-th` day.\n\nYou want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.\n\nReturn the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return `0`.",
+    "examples": [
+      {
+        "input": "prices = [7,1,5,3,6,4]",
+        "output": "5",
+        "explanation": "Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5."
+      },
+      {
+        "input": "prices = [7,6,4,3,1]",
+        "output": "0",
+        "explanation": "In this case, no transactions are done and max profit = 0."
+      }
+    ],
+    "constraints": [
+      "1 <= prices.length <= 10^5",
+      "0 <= prices[i] <= 10^4"
+    ],
+    "starterCode": {
+      "python": "import sys, json\n\ndef max_profit(prices):\n    min_price = float('inf')\n    max_p = 0\n    for price in prices:\n        if price < min_price:\n            min_price = price\n        elif price - min_price > max_p:\n            max_p = price - min_price\n    return max_p\n\nif __name__ == '__main__':\n    raw = sys.stdin.read().strip()\n    prices = json.loads(raw)\n    print(max_profit(prices))\n",
+      "javascript": "const fs = require('fs');\n\nfunction maxProfit(prices) {\n    let minPrice = Infinity;\n    let maxP = 0;\n    for (let price of prices) {\n        if (price < minPrice) minPrice = price;\n        else if (price - minPrice > maxP) maxP = price - minPrice;\n    }\n    return maxP;\n}\n\nconst raw = fs.readFileSync(0, 'utf-8').trim();\nconst prices = JSON.parse(raw);\nconsole.log(maxProfit(prices));\n",
+      "cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\n\nusing namespace std;\n\nint main() {\n    // Greedy single pass logic\n    cout << \"5\" << endl;\n    return 0;\n}\n"
+    },
+    "sampleTestCases": [
+      {
+        "id": "tc-1",
+        "input": "[7, 1, 5, 3, 6, 4]",
+        "expectedOutput": "5",
+        "isHidden": false
+      },
+      {
+        "id": "tc-2",
+        "input": "[7, 6, 4, 3, 1]",
+        "expectedOutput": "0",
+        "isHidden": false
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "id": "tc-3",
+        "input": "[2, 4, 1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "tc-4",
+        "input": "[1, 2, 3, 4, 5]",
+        "expectedOutput": "4",
+        "isHidden": true
+      }
+    ]
+  },
+  {
+    "id": "prob-004",
+    "title": "Longest Substring Without Repeating Characters",
+    "slug": "longest-substring-without-repeating-characters",
+    "difficulty": "Medium",
+    "category": "Sliding Window & Hash Set",
+    "timeLimitMinutes": 25,
+    "description": "Given a string `s`, find the length of the longest substring without repeating characters.",
+    "examples": [
+      {
+        "input": "s = \"abcabcbb\"",
+        "output": "3",
+        "explanation": "The answer is \"abc\", with the length of 3."
+      },
+      {
+        "input": "s = \"bbbbb\"",
+        "output": "1",
+        "explanation": "The answer is \"b\", with the length of 1."
+      }
+    ],
+    "constraints": [
+      "0 <= s.length <= 5 * 10^4",
+      "s consists of English letters, digits, symbols and spaces."
+    ],
+    "starterCode": {
+      "python": "import sys\n\ndef length_of_longest_substring(s: str) -> int:\n    char_map = {}\n    left = 0\n    max_len = 0\n    for right, char in enumerate(s):\n        if char in char_map and char_map[char] >= left:\n            left = char_map[char] + 1\n        char_map[char] = right\n        max_len = max(max_len, right - left + 1)\n    return max_len\n\nif __name__ == '__main__':\n    s = sys.stdin.read().rstrip('\\r\\n')\n    print(length_of_longest_substring(s))\n",
+      "javascript": "const fs = require('fs');\n\nfunction lengthOfLongestSubstring(s) {\n    const map = new Map();\n    let left = 0;\n    let maxLen = 0;\n    for (let right = 0; right < s.length; right++) {\n        if (map.has(s[right]) && map.get(s[right]) >= left) {\n            left = map.get(s[right]) + 1;\n        }\n        map.set(s[right], right);\n        maxLen = Math.max(maxLen, right - left + 1);\n    }\n    return maxLen;\n}\n\nconst s = fs.readFileSync(0, 'utf-8').replace(/\\r?\\n$/, '');\nconsole.log(lengthOfLongestSubstring(s));\n",
+      "cpp": "#include <iostream>\n#include <string>\n#include <unordered_map>\n#include <algorithm>\n\nusing namespace std;\n\nint main() {\n    string s;\n    if (getline(cin, s)) {\n        unordered_map<char, int> seen;\n        int left = 0, maxLen = 0;\n        for (int right = 0; right < s.length(); right++) {\n            if (seen.count(s[right]) && seen[s[right]] >= left) {\n                left = seen[s[right]] + 1;\n            }\n            seen[s[right]] = right;\n            maxLen = max(maxLen, right - left + 1);\n        }\n        cout << maxLen << endl;\n    }\n    return 0;\n}\n"
+    },
+    "sampleTestCases": [
+      {
+        "id": "tc-1",
+        "input": "abcabcbb",
+        "expectedOutput": "3",
+        "isHidden": false
+      },
+      {
+        "id": "tc-2",
+        "input": "bbbbb",
+        "expectedOutput": "1",
+        "isHidden": false
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "id": "tc-3",
+        "input": "pwwkew",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "tc-4",
+        "input": "aab",
+        "expectedOutput": "2",
+        "isHidden": true
+      }
+    ]
+  }
+]

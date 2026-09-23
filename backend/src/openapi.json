@@ -1,0 +1,153 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Smart Interview Simulation & Evaluation Platform API",
+    "version": "1.0.0",
+    "description": "API Gateway for end-to-end technical interview simulation, C++ sandboxed code evaluation, and Python NLP communication scoring."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Local Development Server"
+    }
+  ],
+  "paths": {
+    "/api/interview/start": {
+      "post": {
+        "summary": "Start an interview session",
+        "description": "Initializes a timed interview session for a candidate with assigned technical questions.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "candidateId": { "type": "string", "example": "cand-101" },
+                  "title": { "type": "string", "example": "Fullstack Software Engineer Interview" },
+                  "difficulty": { "type": "string", "enum": ["Easy", "Medium", "Hard"], "example": "Medium" },
+                  "track": { "type": "string", "example": "Algorithms & Systems" },
+                  "problemCount": { "type": "integer", "example": 2 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Interview session successfully created" }
+        }
+      }
+    },
+    "/api/submission/evaluate": {
+      "post": {
+        "summary": "Evaluate candidate code submission",
+        "description": "Dispatches code to C++ Evaluation Engine, runs test cases with timeout monitoring, and stores submission record.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "interviewId": { "type": "string", "example": "int-7f91a2" },
+                  "problemId": { "type": "string", "example": "prob-001" },
+                  "language": { "type": "string", "enum": ["python", "javascript", "cpp", "c"], "example": "python" },
+                  "code": { "type": "string" },
+                  "isSampleOnly": { "type": "boolean", "example": false }
+                },
+                "required": ["problemId", "language", "code"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Evaluation results with passed test cases, runtime, and memory stats" }
+        }
+      }
+    },
+    "/api/interview/communication-feedback": {
+      "post": {
+        "summary": "Analyze verbal explanation via Python NLP Engine",
+        "description": "Evaluates candidate speech transcript for technical keywords, Big-O complexity awareness, and STAR method coherence.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "interviewId": { "type": "string" },
+                  "transcript": { "type": "string" },
+                  "problemId": { "type": "string" },
+                  "code": { "type": "string" },
+                  "timeTakenSeconds": { "type": "integer" }
+                },
+                "required": ["transcript"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "NLP communication analysis and scoring report" }
+        }
+      }
+    },
+    "/api/interview/finish": {
+      "post": {
+        "summary": "Conclude interview and compute final score report",
+        "description": "Calculates composite scores across code correctness, efficiency, communication, and time management.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "interviewId": { "type": "string", "example": "int-7f91a2" },
+                  "recordingUrl": { "type": "string" },
+                  "communicationTranscript": { "type": "string" },
+                  "timeTakenSeconds": { "type": "integer", "example": 850 }
+                },
+                "required": ["interviewId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Comprehensive scorecard with radar competencies and improvement areas" }
+        }
+      }
+    },
+    "/api/results/history": {
+      "get": {
+        "summary": "Get interview history and candidate performance analytics",
+        "parameters": [
+          {
+            "name": "candidateId",
+            "in": "query",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Candidate history with progression trends and radar averages" }
+        }
+      }
+    },
+    "/api/questions": {
+      "get": {
+        "summary": "List available problems in the question bank",
+        "responses": {
+          "200": { "description": "List of interview questions" }
+        }
+      }
+    },
+    "/api/health": {
+      "get": {
+        "summary": "Health status of all distributed platform services",
+        "responses": {
+          "200": { "description": "Node gateway, C++ evaluator, and Python NLP health" }
+        }
+      }
+    }
+  }
+}

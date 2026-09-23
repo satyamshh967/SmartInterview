@@ -1,0 +1,2 @@
+# Zero-dependency architecture using Python 3.12 standard library
+# Optional enhancements: nltk, spacy, scikit-learn
