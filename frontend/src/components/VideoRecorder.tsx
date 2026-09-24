@@ -158,17 +158,17 @@ export const VideoRecorder: React.FC<VideoRecorderProps> = ({
           />
         ) : (
           <div className="flex flex-col items-center justify-center p-4 text-center">
-            <div className="w-14 h-14 rounded-full bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center mb-2">
-              <span className="text-lg font-bold text-indigo-400">AM</span>
+            <div className="w-14 h-14 rounded-full bg-teal-500/20 border border-teal-500/30 flex items-center justify-center mb-2">
+              <span className="text-lg font-bold text-teal-400">AM</span>
             </div>
             <p className="text-xs font-medium text-slate-300">Candidate Audio Feed</p>
             {/* Audio Wave Visualizer */}
             <div className="flex items-center gap-1 mt-2.5 h-6">
-              <span className="w-1 bg-indigo-500 rounded-full animate-wave-1" />
-              <span className="w-1 bg-indigo-400 rounded-full animate-wave-2" />
-              <span className="w-1 bg-cyan-400 rounded-full animate-wave-3" />
-              <span className="w-1 bg-indigo-400 rounded-full animate-wave-4" />
-              <span className="w-1 bg-indigo-500 rounded-full animate-wave-5" />
+              <span className="w-1 bg-teal-500 rounded-full animate-wave-1" />
+              <span className="w-1 bg-teal-400 rounded-full animate-wave-2" />
+              <span className="w-1 bg-emerald-400 rounded-full animate-wave-3" />
+              <span className="w-1 bg-teal-400 rounded-full animate-wave-4" />
+              <span className="w-1 bg-teal-500 rounded-full animate-wave-5" />
             </div>
           </div>
         )}
@@ -183,19 +183,19 @@ export const VideoRecorder: React.FC<VideoRecorderProps> = ({
       <div className="p-3 bg-[#0D121F] space-y-2.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
-            <MessageSquareCode className="w-3.5 h-3.5 text-indigo-400" />
+            <MessageSquareCode className="w-3.5 h-3.5 text-teal-400" />
             <span className="text-xs font-semibold text-slate-300">Solution Reasoning & Explanation</span>
           </div>
 
           <button
             onClick={handleAnalyzeTranscript}
             disabled={isAnalyzing || !explanation.trim()}
-            className="flex items-center gap-1 px-2.5 py-1 text-[11px] font-semibold text-indigo-300 bg-indigo-500/10 hover:bg-indigo-500/20 active:scale-95 rounded-lg border border-indigo-500/30 transition-all disabled:opacity-50"
+            className="flex items-center gap-1 px-2.5 py-1 text-[11px] font-semibold text-teal-300 bg-teal-500/10 hover:bg-teal-500/20 active:scale-95 rounded-lg border border-teal-500/30 transition-all disabled:opacity-50"
           >
             {isAnalyzing ? (
               <Loader2 className="w-3 h-3 animate-spin" />
             ) : (
-              <Sparkles className="w-3 h-3 text-indigo-400" />
+              <Sparkles className="w-3 h-3 text-teal-400" />
             )}
             <span>Analyze with NLP</span>
           </button>
@@ -205,16 +205,16 @@ export const VideoRecorder: React.FC<VideoRecorderProps> = ({
           value={explanation}
           onChange={(e) => handleExplanationChange(e.target.value)}
           rows={3}
-          className="w-full p-2.5 bg-[#090D16] text-slate-200 text-xs rounded-xl border border-white/5 resize-none focus:outline-none focus:border-indigo-500/40 leading-relaxed font-sans"
+          className="w-full p-2.5 bg-[#090D16] text-slate-200 text-xs rounded-xl border border-white/5 resize-none focus:outline-none focus:border-teal-500/40 leading-relaxed font-sans"
           placeholder="Articulate your thought process: approach, time/space complexity O(n), edge cases, and trade-offs..."
         />
 
         {/* NLP Immediate Feedback Pill Bar */}
         {nlpResult && (
-          <div className="p-2.5 bg-indigo-950/20 rounded-xl border border-indigo-500/20 space-y-1.5 animate-fadeIn">
+          <div className="p-2.5 bg-teal-950/20 rounded-xl border border-teal-500/20 space-y-1.5 animate-fadeIn">
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-300 font-medium">Communication Score:</span>
-              <span className="font-bold text-indigo-400">{nlpResult.overallScore}/100</span>
+              <span className="font-bold text-teal-400">{nlpResult.overallScore}/100</span>
             </div>
 
             <div className="flex flex-wrap gap-1">
@@ -224,7 +224,7 @@ export const VideoRecorder: React.FC<VideoRecorderProps> = ({
                 </span>
               )}
               {nlpResult.detectedKeywords.slice(0, 4).map((kw, i) => (
-                <span key={i} className="text-[10px] bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-1.5 py-0.5 rounded">
+                <span key={i} className="text-[10px] bg-teal-500/10 text-teal-300 border border-teal-500/20 px-1.5 py-0.5 rounded">
                   {kw}
                 </span>
               ))}

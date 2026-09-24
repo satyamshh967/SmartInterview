@@ -53,7 +53,7 @@ export const InterviewRoom: React.FC<InterviewRoomProps> = ({
     return (
       <div className="max-w-4xl mx-auto py-12 px-4">
         <div className="text-center max-w-xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold mb-4">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 text-xs font-semibold mb-4">
             <Sparkles className="w-3.5 h-3.5" />
             <span>AI-Powered Technical Assessment</span>
           </div>
@@ -74,7 +74,7 @@ export const InterviewRoom: React.FC<InterviewRoomProps> = ({
               <select
                 value={newTrack}
                 onChange={(e) => setNewTrack(e.target.value)}
-                className="w-full bg-[#090D16] border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 font-medium"
+                className="w-full bg-[#090D16] border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-teal-500 font-medium"
               >
                 <option value="Fullstack & Algorithms">Fullstack Software Engineering</option>
                 <option value="Backend Systems & Architecture">Backend Systems & Distributed Logic</option>
@@ -94,7 +94,7 @@ export const InterviewRoom: React.FC<InterviewRoomProps> = ({
                     onClick={() => setNewDifficulty(diff)}
                     className={`py-3 px-3 rounded-xl text-xs font-semibold border transition-all ${
                       newDifficulty === diff
-                        ? 'bg-indigo-600 border-indigo-500 text-white shadow-lg shadow-indigo-500/20'
+                        ? 'bg-teal-600 border-teal-500 text-white shadow-lg shadow-teal-500/20'
                         : 'bg-[#090D16] border-white/5 text-slate-400 hover:text-slate-200 hover:border-white/10'
                     }`}
                   >
@@ -130,7 +130,7 @@ export const InterviewRoom: React.FC<InterviewRoomProps> = ({
           <button
             onClick={() => onStartNewSession(newDifficulty, newTrack)}
             disabled={isStarting}
-            className="w-full py-3.5 px-6 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 hover:from-indigo-500 hover:to-indigo-400 shadow-xl shadow-indigo-500/25 transition-all active:scale-[0.99] disabled:opacity-50"
+            className="w-full py-3.5 px-6 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-teal-600 via-teal-500 to-teal-600 hover:from-teal-500 hover:to-teal-400 shadow-xl shadow-teal-500/25 transition-all active:scale-[0.99] disabled:opacity-50"
           >
             {isStarting ? 'Preparing Interview Room...' : 'Enter Interview Room & Start Timer'}
           </button>
@@ -207,7 +207,7 @@ export const InterviewRoom: React.FC<InterviewRoomProps> = ({
           <div className="hidden sm:block">
             <h2 className="text-sm font-bold text-white tracking-tight">{interview.title}</h2>
             <div className="flex items-center gap-2 text-[11px] text-slate-400">
-              <span className="text-indigo-400 font-medium">{interview.track}</span>
+              <span className="text-teal-400 font-medium">{interview.track}</span>
               <span>&bull;</span>
               <span className="text-slate-300">{interview.difficulty}</span>
             </div>
@@ -226,7 +226,7 @@ export const InterviewRoom: React.FC<InterviewRoomProps> = ({
                 }}
                 className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-all ${
                   activeProblemIndex === idx
-                    ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/30'
+                    ? 'bg-teal-600 text-white shadow-sm shadow-teal-500/30'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
                 }`}
               >
@@ -312,9 +312,9 @@ export const InterviewRoom: React.FC<InterviewRoomProps> = ({
           </div>
 
           {/* AI Interviewer Prompt */}
-          <div className="p-3 bg-indigo-950/20 rounded-xl border border-indigo-500/20 text-xs">
-            <div className="flex items-center gap-1.5 text-indigo-300 font-semibold mb-1">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+          <div className="p-3 bg-teal-950/20 rounded-xl border border-teal-500/20 text-xs">
+            <div className="flex items-center gap-1.5 text-teal-300 font-semibold mb-1">
+              <Sparkles className="w-3.5 h-3.5 text-teal-400" />
               <span>Interviewer Tip</span>
             </div>
             <p className="text-slate-400 text-[11px] leading-relaxed">
@@ -377,7 +377,7 @@ export const InterviewRoom: React.FC<InterviewRoomProps> = ({
                   setShowFinishConfirm(false);
                   onFinishInterview(transcript, elapsedSeconds);
                 }}
-                className="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl shadow-lg shadow-indigo-500/20 transition-all"
+                className="px-4 py-2 text-xs font-semibold text-white bg-teal-600 hover:bg-teal-500 rounded-xl shadow-lg shadow-teal-500/20 transition-all"
               >
                 Submit & View Scorecard
               </button>

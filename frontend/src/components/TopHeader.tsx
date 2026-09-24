@@ -13,20 +13,22 @@ interface TopHeaderProps {
   toggleTheme: () => void;
   roleTitle?: string;
   onOpenCodeEditor: () => void;
+  onBack?: () => void;
 }
 
 export const TopHeader: React.FC<TopHeaderProps> = ({
   theme,
   toggleTheme,
   roleTitle = 'Fullstack Software Engineer',
-  onOpenCodeEditor
+  onOpenCodeEditor,
+  onBack
 }) => {
   return (
     <header className="h-16 px-6 lg:px-8 flex items-center justify-between border-b border-slate-200 dark:border-white/5 bg-white dark:bg-[#111827] transition-colors select-none">
       {/* Left: Back Arrow, Title, Role Tag */}
       <div className="flex items-center gap-3">
         <button
-          onClick={() => window.location.reload()}
+          onClick={onBack ? onBack : () => window.location.reload()}
           className="w-8 h-8 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
           title="Back to Overview"
         >

@@ -11,6 +11,9 @@ import { CodeModal } from './components/CodeModal';
 import { AnalyticsDashboard } from './components/AnalyticsDashboard';
 import { HistoryView } from './components/HistoryView';
 import { RecruiterView } from './components/RecruiterView';
+import { CandidatesView } from './components/CandidatesView';
+import { QuestionBankView } from './components/QuestionBankView';
+import { SettingsView } from './components/SettingsView';
 import { Problem, InterviewSession, ScoreRecord } from './types';
 import { fetchQuestions, fetchCandidates } from './services/api';
 
@@ -130,13 +133,20 @@ export function App() {
         <TopHeader
           theme={theme}
           toggleTheme={toggleTheme}
-          roleTitle="Assistant Project Manager / SWE"
+          roleTitle={
+            activeView === 'candidates' ? 'Candidate Review & Profiles' :
+            activeView === 'questions' ? 'Technical Problem Bank' :
+            activeView === 'analytics' ? 'Evaluation Scorecard' :
+            activeView === 'settings' ? 'Platform Settings & Config' :
+            'Assistant Project Manager / SWE'
+          }
           onOpenCodeEditor={() => setIsCodeModalOpen(true)}
+          onBack={() => setActiveView('interview')}
         />
 
         {/* 3. Main Stage Content */}
         <main className="flex-1 p-5 md:p-6 lg:p-7 overflow-y-auto space-y-6">
-          {activeView === 'interview' && (
+          {(activeView === 'interview' || activeView === 'dashboard') && (
             <>
               {/* Top Tier: All Candidates Panel (Left) & Video Stage (Right) */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
@@ -208,6 +218,29 @@ export function App() {
             </>
           )}
 
+          {activeView === 'candidates' && (
+            <CandidatesView
+              candidates={candidatesList}
+              onSelectCandidate={(cand) => {
+                setSelectedCandidate(cand);
+                setActiveView('interview');
+              }}
+              onViewScorecard={(cand) => {
+                setSelectedCandidate(cand);
+                setActiveView('analytics');
+              }}
+            />
+          )}
+
+          {activeView === 'questions' && (
+            <QuestionBankView
+              problems={problems}
+              onOpenProblem={() => {
+                setIsCodeModalOpen(true);
+              }}
+            />
+          )}
+
           {activeView === 'analytics' && (
             <AnalyticsDashboard
               score={{
@@ -249,27 +282,14 @@ export function App() {
             />
           )}
 
+          {activeView === 'recruiter' && (
+            <RecruiterView
+              onSelectCandidateInterview={() => setActiveView('analytics')}
+            />
+          )}
+
           {activeView === 'settings' && (
-            <div className="max-w-2xl mx-auto py-12 text-center bg-white dark:bg-[#111827] rounded-3xl p-8 border border-slate-200 dark:border-white/5 shadow-soft">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Platform Settings & Service APIs</h2>
-              <p className="text-xs text-slate-500 mb-6">Explore the multi-language backend architecture and interactive documentation.</p>
-              <div className="flex justify-center gap-4">
-                <a
-                  href="http://localhost:5000/api/docs"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-xs font-semibold"
-                >
-                  Open Swagger API Docs
-                </a>
-                <button
-                  onClick={() => setActiveView('interview')}
-                  className="px-4 py-2 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold"
-                >
-                  Back to Interview Stage
-                </button>
-              </div>
-            </div>
+            <SettingsView />
           )}
         </main>
       </div>

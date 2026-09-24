@@ -24,7 +24,7 @@ export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
   if (isEvaluating) {
     return (
       <div className="h-48 flex flex-col items-center justify-center bg-[#0D121F] rounded-2xl border border-white/5 p-6 text-slate-400">
-        <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin mb-3" />
+        <div className="w-6 h-6 border-2 border-teal-500 border-t-transparent rounded-full animate-spin mb-3" />
         <p className="text-xs font-medium text-slate-300">Evaluating in C++ Sandboxed Environment...</p>
         <p className="text-[11px] text-slate-500 mt-1">Executing test suite with strict time and memory monitoring</p>
       </div>
@@ -81,7 +81,7 @@ export const ConsoleOutput: React.FC<ConsoleOutputProps> = ({
         {/* Runtime & Memory Pills */}
         <div className="flex items-center gap-3 text-xs font-mono text-slate-400">
           <div className="flex items-center gap-1 bg-slate-800/60 px-2 py-0.5 rounded-md border border-white/5" title="Execution Time">
-            <Clock className="w-3 h-3 text-indigo-400" />
+            <Clock className="w-3 h-3 text-teal-400" />
             <span>{totalExecutionTimeMs} ms</span>
           </div>
           <div className="flex items-center gap-1 bg-slate-800/60 px-2 py-0.5 rounded-md border border-white/5" title="Peak Memory">

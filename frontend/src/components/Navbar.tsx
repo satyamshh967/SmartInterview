@@ -50,14 +50,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           onClick={() => setActiveTab('room')}
           className="flex items-center gap-3 cursor-pointer group select-none flex-shrink-0"
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500/20 to-indigo-600/10 border border-indigo-500/30 flex items-center justify-center transition-transform group-hover:scale-105 shadow-sm shadow-indigo-500/10">
-            <Terminal className="w-4 h-4 text-indigo-400 group-hover:text-indigo-300 transition-colors" />
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500/20 to-teal-600/10 border border-teal-500/30 flex items-center justify-center transition-transform group-hover:scale-105 shadow-sm shadow-teal-500/10">
+            <Terminal className="w-4 h-4 text-teal-400 group-hover:text-teal-300 transition-colors" />
           </div>
           <div className="flex items-center gap-2">
             <span className="font-bold text-base tracking-tight text-white group-hover:text-slate-200 transition-colors">
               SmartInterview
             </span>
-            <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+            <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-teal-500/10 text-teal-400 border border-teal-500/20">
               AI
             </span>
           </div>
@@ -69,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => setActiveTab('room')}
             className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-medium transition-all ${
               activeTab === 'room'
-                ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/25'
+                ? 'bg-teal-600 text-white shadow-sm shadow-teal-500/25'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.03]'
             }`}
           >
@@ -84,7 +84,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => setActiveTab('analytics')}
             className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-medium transition-all ${
               activeTab === 'analytics'
-                ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/25'
+                ? 'bg-teal-600 text-white shadow-sm shadow-teal-500/25'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.03]'
             }`}
           >
@@ -96,7 +96,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => setActiveTab('history')}
             className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-medium transition-all ${
               activeTab === 'history'
-                ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/25'
+                ? 'bg-teal-600 text-white shadow-sm shadow-teal-500/25'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.03]'
             }`}
           >
@@ -108,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => setActiveTab('recruiter')}
             className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-medium transition-all ${
               activeTab === 'recruiter'
-                ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/25'
+                ? 'bg-teal-600 text-white shadow-sm shadow-teal-500/25'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.03]'
             }`}
           >
@@ -135,7 +135,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded-xl hover:bg-white/[0.04] transition-colors font-medium border border-transparent hover:border-white/[0.05]"
             title="Open Interactive OpenAPI Swagger Docs"
           >
-            <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+            <BookOpen className="w-3.5 h-3.5 text-teal-400" />
             <span className="hidden md:inline">API Docs</span>
           </a>
         </div>
