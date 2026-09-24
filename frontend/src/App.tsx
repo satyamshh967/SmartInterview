@@ -14,8 +14,12 @@ import { RecruiterView } from './components/RecruiterView';
 import { CandidatesView } from './components/CandidatesView';
 import { QuestionBankView } from './components/QuestionBankView';
 import { SettingsView } from './components/SettingsView';
+import { InterviewRoom } from './components/InterviewRoom';
+import { TakeInterviewBanner } from './components/TakeInterviewBanner';
+import { TakeInterviewModal } from './components/TakeInterviewModal';
+import { ThemeSelectorModal, ThemeMode, AccentColor } from './components/ThemeSelectorModal';
 import { Problem, InterviewSession, ScoreRecord } from './types';
-import { fetchQuestions, fetchCandidates } from './services/api';
+import { fetchQuestions, fetchCandidates, startInterviewSession } from './services/api';
 
 const INITIAL_CANDIDATES: CandidateItem[] = [
   {
@@ -40,7 +44,7 @@ const INITIAL_CANDIDATES: CandidateItem[] = [
     role: 'Algorithms Engineer',
     status: 'Approved',
     score: 95,
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80'
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80'
   },
   {
     id: 'cand-4',
@@ -61,9 +65,12 @@ const INITIAL_CANDIDATES: CandidateItem[] = [
 ];
 
 export function App() {
-  // Theme state: default to 'light' as shown in the reference screenshot
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    return (localStorage.getItem('app-theme') as 'light' | 'dark') || 'light';
+  // Theme state: defaults to 'light' (Clean All-White)
+  const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
+    return (localStorage.getItem('app-theme-mode') as ThemeMode) || 'light';
+  });
+  const [accentColor, setAccentColor] = useState<AccentColor>(() => {
+    return (localStorage.getItem('app-accent-color') as AccentColor) || 'teal';
   });
 
   const [activeView, setActiveView] = useState<string>('interview');
@@ -76,19 +83,28 @@ export function App() {
   const [isCodeModalOpen, setIsCodeModalOpen] = useState<boolean>(false);
   const [activeInterview, setActiveInterview] = useState<InterviewSession | null>(null);
 
+  // Modals
+  const [isTakeInterviewModalOpen, setIsTakeInterviewModalOpen] = useState<boolean>(false);
+  const [isThemeModalOpen, setIsThemeModalOpen] = useState<boolean>(false);
+  const [isStartingInterview, setIsStartingInterview] = useState<boolean>(false);
+
   // Sync theme with DOM
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === 'dark') {
+    if (themeMode === 'dark') {
       root.classList.add('dark');
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('app-theme', theme);
-  }, [theme]);
+    localStorage.setItem('app-theme-mode', themeMode);
+  }, [themeMode]);
+
+  useEffect(() => {
+    localStorage.setItem('app-accent-color', accentColor);
+  }, [accentColor]);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
   useEffect(() => {
@@ -105,6 +121,43 @@ export function App() {
     loadProblems();
   }, []);
 
+  const handleStartInterview = async (track: string, difficulty: string) => {
+    setIsStartingInterview(true);
+    try {
+      const data = await startInterviewSession({
+        candidateId: selectedCandidate.id,
+        difficulty,
+        track
+      });
+      if (data?.interview) {
+        setActiveInterview(data.interview);
+        if (data.problems?.length) {
+          setProblems(data.problems);
+        }
+      }
+    } catch (err) {
+      console.warn('Backend interview start failed, using local simulation session:', err);
+      // Fallback interview session
+      setActiveInterview({
+        id: `int-${Date.now()}`,
+        candidateId: selectedCandidate.id,
+        candidateName: selectedCandidate.name,
+        title: `${track} Interview Assessment`,
+        track,
+        difficulty,
+        status: 'IN_PROGRESS',
+        startedAt: new Date().toISOString(),
+        timeLimitMinutes: difficulty === 'Hard' ? 45 : difficulty === 'Easy' ? 15 : 30,
+        problemIds: problems.map(p => p.id),
+        currentProblemIndex: 0
+      });
+    } finally {
+      setIsStartingInterview(false);
+      setIsTakeInterviewModalOpen(false);
+      setActiveView('simulation');
+    }
+  };
+
   const activeProblem = problems[0] || {
     id: 'prob-001',
     title: 'Two Sum',
@@ -119,35 +172,51 @@ export function App() {
     sampleTestCases: [{ id: 'tc-1', input: '[2,7,11,15]\n9', expectedOutput: '[0, 1]' }]
   };
 
+  const bgCanvasClass = themeMode === 'dark'
+    ? 'bg-[#090D16]'
+    : themeMode === 'contrast'
+    ? 'bg-[#F1F3F7]'
+    : 'bg-[#FFFFFF]'; // All white!
+
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-theme-bg dark:bg-theme-darkBg font-sans transition-colors">
+    <div className={`flex h-screen w-screen overflow-hidden ${bgCanvasClass} font-sans transition-colors`}>
       {/* 1. Left Icon Rail Sidebar */}
       <Sidebar
-        activeView={activeView}
-        setActiveView={setActiveView}
+        activeView={activeView === 'simulation' ? 'interview' : activeView}
+        setActiveView={(view) => setActiveView(view)}
       />
 
       {/* Main Container */}
       <div className="flex-1 flex flex-col h-full overflow-hidden">
         {/* 2. Top Header Bar */}
         <TopHeader
-          theme={theme}
+          theme={themeMode}
           toggleTheme={toggleTheme}
           roleTitle={
             activeView === 'candidates' ? 'Candidate Review & Profiles' :
             activeView === 'questions' ? 'Technical Problem Bank' :
             activeView === 'analytics' ? 'Evaluation Scorecard' :
             activeView === 'settings' ? 'Platform Settings & Config' :
+            activeView === 'simulation' ? 'Live Interview Simulation' :
             'Assistant Project Manager / SWE'
           }
           onOpenCodeEditor={() => setIsCodeModalOpen(true)}
+          onOpenTakeInterview={() => setIsTakeInterviewModalOpen(true)}
+          onOpenThemeModal={() => setIsThemeModalOpen(true)}
           onBack={() => setActiveView('interview')}
         />
 
         {/* 3. Main Stage Content */}
         <main className="flex-1 p-5 md:p-6 lg:p-7 overflow-y-auto space-y-6">
+          {/* Home Page: Interview Room / Dashboard */}
           {(activeView === 'interview' || activeView === 'dashboard') && (
             <>
+              {/* Home Page Top Banner: Various Options to Take Interview */}
+              <TakeInterviewBanner
+                onQuickStart={handleStartInterview}
+                onOpenCustomModal={() => setIsTakeInterviewModalOpen(true)}
+              />
+
               {/* Top Tier: All Candidates Panel (Left) & Video Stage (Right) */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
                 {/* Left: All Candidates Panel (4 cols) */}
@@ -216,6 +285,24 @@ export function App() {
                 />
               </div>
             </>
+          )}
+
+          {/* Live Interview Simulation Session */}
+          {activeView === 'simulation' && (
+            <InterviewRoom
+              interview={activeInterview}
+              problems={problems}
+              onStartNewSession={handleStartInterview}
+              onFinishInterview={(_transcript, _sec) => {
+                setSelectedCandidate(prev => ({
+                  ...prev,
+                  score: 91,
+                  status: 'Approved'
+                }));
+                setActiveView('analytics');
+              }}
+              isStarting={isStartingInterview}
+            />
           )}
 
           {activeView === 'candidates' && (
@@ -289,10 +376,33 @@ export function App() {
           )}
 
           {activeView === 'settings' && (
-            <SettingsView />
+            <SettingsView
+              currentMode={themeMode}
+              onSelectMode={setThemeMode}
+              currentAccent={accentColor}
+              onSelectAccent={setAccentColor}
+            />
           )}
         </main>
       </div>
+
+      {/* Take Interview Custom Modal */}
+      <TakeInterviewModal
+        isOpen={isTakeInterviewModalOpen}
+        onClose={() => setIsTakeInterviewModalOpen(false)}
+        onStartInterview={handleStartInterview}
+        isStarting={isStartingInterview}
+      />
+
+      {/* Theme Selector Modal */}
+      <ThemeSelectorModal
+        isOpen={isThemeModalOpen}
+        onClose={() => setIsThemeModalOpen(false)}
+        currentMode={themeMode}
+        onSelectMode={setThemeMode}
+        currentAccent={accentColor}
+        onSelectAccent={setAccentColor}
+      />
 
       {/* Code Sandbox Modal (C++ Evaluation Engine) */}
       <CodeModal

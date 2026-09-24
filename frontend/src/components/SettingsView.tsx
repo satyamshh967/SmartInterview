@@ -12,7 +12,19 @@ import {
   Volume2
 } from 'lucide-react';
 
-export const SettingsView: React.FC = () => {
+interface SettingsViewProps {
+  currentMode?: 'light' | 'contrast' | 'dark';
+  onSelectMode?: (mode: 'light' | 'contrast' | 'dark') => void;
+  currentAccent?: string;
+  onSelectAccent?: (accent: string) => void;
+}
+
+export const SettingsView: React.FC<SettingsViewProps> = ({
+  currentMode = 'light',
+  onSelectMode,
+  currentAccent = 'teal',
+  onSelectAccent
+}) => {
   const [savedAlert, setSavedAlert] = useState<boolean>(false);
   const [timeLimit, setTimeLimit] = useState<number>(30);
   const [sandboxTimeout, setSandboxTimeout] = useState<number>(3500);
@@ -217,6 +229,63 @@ export const SettingsView: React.FC = () => {
               <span>Explore Interactive OpenAPI / Swagger Docs &rarr;</span>
             </a>
           </div>
+        </div>
+      </div>
+
+      {/* 5. Theme & Appearance Options */}
+      <div className="bg-white dark:bg-[#111827] p-6 rounded-3xl border border-slate-200/80 dark:border-white/5 shadow-soft space-y-4 transition-colors">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white">Theme & UI Appearance</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Toggle between Clean All-White, Contrast Minimal, or Dark Midnight</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+          <button
+            type="button"
+            onClick={() => onSelectMode && onSelectMode('light')}
+            className={`p-4 rounded-2xl border text-left transition-all ${
+              currentMode === 'light'
+                ? 'bg-teal-50 dark:bg-teal-500/10 border-teal-500 shadow-sm'
+                : 'border-slate-200 dark:border-white/10 hover:border-slate-300'
+            }`}
+          >
+            <div className="text-xs font-bold text-slate-900 dark:text-white">Clean All-White</div>
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-normal">
+              Pure white canvas, white sidebar & cards. Crisp slate typography.
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onSelectMode && onSelectMode('contrast')}
+            className={`p-4 rounded-2xl border text-left transition-all ${
+              currentMode === 'contrast'
+                ? 'bg-teal-50 dark:bg-teal-500/10 border-teal-500 shadow-sm'
+                : 'border-slate-200 dark:border-white/10 hover:border-slate-300'
+            }`}
+          >
+            <div className="text-xs font-bold text-slate-900 dark:text-white">Contrast (Reference)</div>
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-normal">
+              Soft gray background with dark navigation rail & white cards.
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onSelectMode && onSelectMode('dark')}
+            className={`p-4 rounded-2xl border text-left transition-all ${
+              currentMode === 'dark'
+                ? 'bg-teal-50 dark:bg-teal-500/10 border-teal-500 shadow-sm'
+                : 'border-slate-200 dark:border-white/10 hover:border-slate-300'
+            }`}
+          >
+            <div className="text-xs font-bold text-slate-900 dark:text-white">Obsidian Dark</div>
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-normal">
+              Deep midnight canvas with dark slate cards & glowing teal accents.
+            </div>
+          </button>
         </div>
       </div>
     </div>

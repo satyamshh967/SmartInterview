@@ -9,10 +9,12 @@ import {
 } from 'lucide-react';
 
 interface TopHeaderProps {
-  theme: 'light' | 'dark';
+  theme: 'light' | 'contrast' | 'dark';
   toggleTheme: () => void;
   roleTitle?: string;
   onOpenCodeEditor: () => void;
+  onOpenTakeInterview: () => void;
+  onOpenThemeModal: () => void;
   onBack?: () => void;
 }
 
@@ -21,63 +23,63 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   toggleTheme,
   roleTitle = 'Fullstack Software Engineer',
   onOpenCodeEditor,
+  onOpenTakeInterview,
+  onOpenThemeModal,
   onBack
 }) => {
   return (
-    <header className="h-16 px-6 lg:px-8 flex items-center justify-between border-b border-slate-200 dark:border-white/5 bg-white dark:bg-[#111827] transition-colors select-none">
+    <header className="h-16 px-5 lg:px-8 flex items-center justify-between border-b border-slate-200/90 dark:border-white/5 bg-white dark:bg-[#111827] transition-colors select-none">
       {/* Left: Back Arrow, Title, Role Tag */}
       <div className="flex items-center gap-3">
         <button
           onClick={onBack ? onBack : () => window.location.reload()}
-          className="w-8 h-8 rounded-lg border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+          className="w-8 h-8 rounded-xl border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
           title="Back to Overview"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <h1 className="font-bold text-base text-slate-900 dark:text-white tracking-tight">
             AI Interview Platform
           </h1>
           <span className="text-slate-300 dark:text-slate-700">|</span>
-          <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+          <span className="text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:inline">
             {roleTitle}
           </span>
         </div>
       </div>
 
-      {/* Right Controls: Code Sandbox, Theme Toggle, Bell, Profile */}
-      <div className="flex items-center gap-3 sm:gap-4">
+      {/* Right Controls: Take Interview CTA, Code Sandbox, Theme Toggle, Bell, Profile */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        {/* Prominent Take Interview Button */}
+        <button
+          onClick={onOpenTakeInterview}
+          className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl text-white bg-teal-600 hover:bg-teal-700 shadow-md shadow-teal-500/25 active:scale-95 transition-all"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-teal-200" />
+          <span>Take Interview</span>
+        </button>
+
         {/* Quick Open Sandbox Button */}
         <button
           onClick={onOpenCodeEditor}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-teal-50 dark:bg-teal-500/10 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20 hover:bg-teal-100 dark:hover:bg-teal-500/20 transition-all shadow-sm"
+          className="hidden md:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl bg-slate-100 dark:bg-teal-500/10 text-slate-700 dark:text-teal-400 border border-slate-200 dark:border-teal-500/20 hover:bg-slate-200 dark:hover:bg-teal-500/20 transition-all shadow-sm"
         >
           <Code className="w-3.5 h-3.5" />
-          <span>C++ Code Sandbox</span>
+          <span>Code Sandbox</span>
         </button>
 
-        {/* API Docs Link */}
-        <a
-          href="http://localhost:5000/api/docs"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden md:flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white px-2.5 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
-        >
-          <BookOpen className="w-3.5 h-3.5" />
-          <span>API Docs</span>
-        </a>
-
-        {/* Theme Toggle (Light / Dark) */}
+        {/* Theme Options (Palette) Button */}
         <button
-          onClick={toggleTheme}
+          onClick={onOpenThemeModal}
           className="w-9 h-9 rounded-xl border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
-          title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
+          title="Themes & Appearance Options"
         >
-          {theme === 'light' ? (
-            <Moon className="w-4 h-4 text-slate-700" />
-          ) : (
+          {theme === 'dark' ? (
             <Sun className="w-4 h-4 text-amber-400" />
+          ) : (
+            <Moon className="w-4 h-4 text-slate-700" />
           )}
         </button>
 

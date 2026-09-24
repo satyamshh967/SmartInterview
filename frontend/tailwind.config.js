@@ -9,7 +9,8 @@ export default {
     extend: {
       colors: {
         theme: {
-          bg: '#F1F3F7',
+          bg: '#FFFFFF',
+          pageBg: '#F8FAFC',
           card: '#FFFFFF',
           sidebar: '#111827',
           darkBg: '#090D16',

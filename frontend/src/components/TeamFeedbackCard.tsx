@@ -8,7 +8,7 @@ export const TeamFeedbackCard: React.FC = () => {
       role: 'Human Resource',
       rating: '4.0',
       stars: 4,
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80'
+      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&auto=format&fit=crop&q=80'
     },
     {
       name: 'Guy Hawkins',
