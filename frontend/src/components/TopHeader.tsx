@@ -1,13 +1,13 @@
 import React from 'react';
 import { 
   ChevronLeft, 
-  Bell, 
   Sun, 
   Moon, 
   BookOpen,
   Code,
   Sparkles
 } from 'lucide-react';
+import { NotificationDropdown } from './NotificationDropdown';
 
 interface TopHeaderProps {
   theme: 'light' | 'contrast' | 'dark';
@@ -17,6 +17,7 @@ interface TopHeaderProps {
   onOpenTakeInterview: () => void;
   onOpenThemeModal: () => void;
   onBack?: () => void;
+  onNavigate?: (view: string) => void;
 }
 
 export const TopHeader: React.FC<TopHeaderProps> = ({
@@ -26,7 +27,8 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   onOpenCodeEditor,
   onOpenTakeInterview,
   onOpenThemeModal,
-  onBack
+  onBack,
+  onNavigate
 }) => {
   return (
     <header className="h-16 px-5 lg:px-8 flex items-center justify-between border-b border-slate-200/90 dark:border-white/5 bg-white dark:bg-[#111827] transition-colors select-none">
@@ -84,14 +86,8 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
           )}
         </button>
 
-        {/* Notification Bell */}
-        <button 
-          className="relative w-9 h-9 rounded-xl border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
-          title="Notifications"
-        >
-          <Bell className="w-4 h-4" />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white dark:ring-[#111827]" />
-        </button>
+        {/* Interactive Notification Bell & Popover */}
+        <NotificationDropdown onNavigate={onNavigate} />
 
         {/* Reviewer / Evaluator Profile */}
         <div className="flex items-center gap-2.5 pl-1 border-l border-slate-200 dark:border-white/10">

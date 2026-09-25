@@ -205,6 +205,7 @@ export function App() {
           onOpenTakeInterview={() => setIsTakeInterviewModalOpen(true)}
           onOpenThemeModal={() => setIsThemeModalOpen(true)}
           onBack={() => setActiveView('dashboard')}
+          onNavigate={(view) => setActiveView(view)}
         />
 
         {/* 3. Main Stage Content */}
