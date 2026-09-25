@@ -29,10 +29,11 @@ export const MetricDonutCard: React.FC<MetricDonutCardProps> = ({
     { label: 'Speed & Pacing', val: metrics.speed, color: 'text-teal-500' }
   ];
 
-  const renderDonut = (percent: number, colorClass: string) => {
+  const renderDonut = (percent: number = 0, colorClass: string) => {
+    const safePercent = Math.max(0, Math.min(100, percent || 0));
     const radius = 24;
     const circumference = 2 * Math.PI * radius;
-    const offset = circumference - (percent / 100) * circumference;
+    const offset = circumference - (safePercent / 100) * circumference;
 
     return (
       <div className="relative w-16 h-16 flex items-center justify-center">

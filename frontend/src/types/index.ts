@@ -129,6 +129,7 @@ export interface InterviewSession {
   startedAt: string;
   completedAt?: string | null;
   problemIds: string[];
+  currentProblemIndex?: number;
   communicationTranscript?: string;
   recordingUrl?: string | null;
 }

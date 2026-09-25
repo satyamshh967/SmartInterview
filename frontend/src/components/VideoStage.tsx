@@ -14,7 +14,7 @@ import {
 import { CandidateItem } from './CandidateListCard';
 
 interface VideoStageProps {
-  candidate: CandidateItem;
+  candidate?: CandidateItem | null;
   questionNumber?: number;
   questionTitle?: string;
   transcript?: string;
@@ -99,13 +99,13 @@ export const VideoStage: React.FC<VideoStageProps> = ({
       {/* Top Overlay Pill 1: Candidate Identity (Left) */}
       <div className="absolute top-5 left-5 z-10 flex items-center gap-2.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-2xl border border-white/10 text-white">
         <img
-          src={candidate.avatar}
-          alt={candidate.name}
+          src={candidate?.avatar || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&auto=format&fit=crop&q=80'}
+          alt={candidate?.name || 'Talent'}
           className="w-7 h-7 rounded-full object-cover ring-1 ring-white/20"
         />
         <div className="leading-tight">
-          <h4 className="text-xs font-bold">{candidate.name}</h4>
-          <span className="text-[10px] text-slate-300 font-medium">Talent</span>
+          <h4 className="text-xs font-bold">{candidate?.name || 'Candidate'}</h4>
+          <span className="text-[10px] text-slate-300 font-medium">{candidate?.role || 'Talent'}</span>
         </div>
       </div>
 

@@ -5,7 +5,8 @@ import {
   Sun, 
   Moon, 
   BookOpen,
-  Code
+  Code,
+  Sparkles
 } from 'lucide-react';
 
 interface TopHeaderProps {

@@ -145,7 +145,7 @@ export function App() {
         title: `${track} Interview Assessment`,
         track,
         difficulty,
-        status: 'IN_PROGRESS',
+        status: 'in_progress',
         startedAt: new Date().toISOString(),
         timeLimitMinutes: difficulty === 'Hard' ? 45 : difficulty === 'Easy' ? 15 : 30,
         problemIds: problems.map(p => p.id),
@@ -380,7 +380,7 @@ export function App() {
               currentMode={themeMode}
               onSelectMode={setThemeMode}
               currentAccent={accentColor}
-              onSelectAccent={setAccentColor}
+              onSelectAccent={(accent) => setAccentColor(accent as AccentColor)}
             />
           )}
         </main>

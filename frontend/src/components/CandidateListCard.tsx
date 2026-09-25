@@ -31,7 +31,7 @@ export const CandidateListCard: React.FC<CandidateListCardProps> = ({
 
       {/* Candidate Rows */}
       <div className="space-y-3.5 overflow-y-auto flex-1 pr-1">
-        {candidates.map((cand) => {
+        {(candidates || []).map((cand) => {
           const isSelected = cand.id === selectedId;
           const isApproved = cand.status === 'Approved';
 
