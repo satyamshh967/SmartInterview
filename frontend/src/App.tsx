@@ -73,7 +73,7 @@ export function App() {
     return (localStorage.getItem('app-accent-color') as AccentColor) || 'teal';
   });
 
-  const [activeView, setActiveView] = useState<string>('interview');
+  const [activeView, setActiveView] = useState<string>('dashboard');
   const [candidatesList, setCandidatesList] = useState<CandidateItem[]>(INITIAL_CANDIDATES);
   const [selectedCandidate, setSelectedCandidate] = useState<CandidateItem>(INITIAL_CANDIDATES[0]);
   const [activeStep, setActiveStep] = useState<number>(2);
@@ -154,7 +154,7 @@ export function App() {
     } finally {
       setIsStartingInterview(false);
       setIsTakeInterviewModalOpen(false);
-      setActiveView('simulation');
+      setActiveView('interview');
     }
   };
 
@@ -182,7 +182,7 @@ export function App() {
     <div className={`flex h-screen w-screen overflow-hidden ${bgCanvasClass} font-sans transition-colors`}>
       {/* 1. Left Icon Rail Sidebar */}
       <Sidebar
-        activeView={activeView === 'simulation' ? 'interview' : activeView}
+        activeView={activeView}
         setActiveView={(view) => setActiveView(view)}
       />
 
@@ -197,19 +197,20 @@ export function App() {
             activeView === 'questions' ? 'Technical Problem Bank' :
             activeView === 'analytics' ? 'Evaluation Scorecard' :
             activeView === 'settings' ? 'Platform Settings & Config' :
-            activeView === 'simulation' ? 'Live Interview Simulation' :
-            'Assistant Project Manager / SWE'
+            activeView === 'interview' ? 'Live Technical Assessment Room' :
+            activeView === 'recruiter' ? 'Institutional Placement Portal' :
+            'Assessment & Review Stage'
           }
           onOpenCodeEditor={() => setIsCodeModalOpen(true)}
           onOpenTakeInterview={() => setIsTakeInterviewModalOpen(true)}
           onOpenThemeModal={() => setIsThemeModalOpen(true)}
-          onBack={() => setActiveView('interview')}
+          onBack={() => setActiveView('dashboard')}
         />
 
         {/* 3. Main Stage Content */}
         <main className="flex-1 p-5 md:p-6 lg:p-7 overflow-y-auto space-y-6">
-          {/* Home Page: Interview Room / Dashboard */}
-          {(activeView === 'interview' || activeView === 'dashboard') && (
+          {/* Home Page: Dashboard Overview */}
+          {activeView === 'dashboard' && (
             <>
               {/* Home Page Top Banner: Various Options to Take Interview */}
               <TakeInterviewBanner
@@ -287,8 +288,8 @@ export function App() {
             </>
           )}
 
-          {/* Live Interview Simulation Session */}
-          {activeView === 'simulation' && (
+          {/* Live Technical Assessment Room */}
+          {activeView === 'interview' && (
             <InterviewRoom
               interview={activeInterview}
               problems={problems}
@@ -310,7 +311,7 @@ export function App() {
               candidates={candidatesList}
               onSelectCandidate={(cand) => {
                 setSelectedCandidate(cand);
-                setActiveView('interview');
+                setActiveView('dashboard');
               }}
               onViewScorecard={(cand) => {
                 setSelectedCandidate(cand);

@@ -17,10 +17,10 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
   const navItems = [
-    { id: 'dashboard', icon: LayoutGrid, label: 'Dashboard' },
-    { id: 'interview', icon: Headphones, label: 'Interview Room' },
-    { id: 'candidates', icon: Video, label: 'Video Review' },
-    { id: 'analytics', icon: Award, label: 'Scorecards' },
+    { id: 'dashboard', icon: LayoutGrid, label: 'Dashboard Overview' },
+    { id: 'interview', icon: Headphones, label: 'Live Interview Assessment' },
+    { id: 'candidates', icon: Video, label: 'Candidate Directory' },
+    { id: 'analytics', icon: Award, label: 'Scorecards & Analytics' },
     { id: 'questions', icon: FileText, label: 'Question Bank' },
     { id: 'settings', icon: Settings, label: 'Settings & API' },
   ];
@@ -30,7 +30,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) =
       {/* Top Hexagon Brand Logo */}
       <div className="flex flex-col items-center gap-6">
         <div 
-          onClick={() => setActiveView('interview')}
+          onClick={() => setActiveView('dashboard')}
           className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-teal-500 to-emerald-400 p-[1px] shadow-lg shadow-teal-500/20 cursor-pointer hover:scale-105 transition-transform flex items-center justify-center"
         >
           <div className="w-full h-full bg-white dark:bg-[#111827] rounded-[15px] flex items-center justify-center">
