@@ -7,7 +7,7 @@ import {
   FileText, 
   Settings, 
   LogOut,
-  Sparkles
+  Code2
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -27,15 +27,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) =
 
   return (
     <aside className="w-16 md:w-20 bg-white dark:bg-[#111827] flex flex-col items-center justify-between py-6 border-r border-slate-200/90 dark:border-white/5 flex-shrink-0 select-none z-20 transition-colors">
-      {/* Top Hexagon Brand Logo */}
+      {/* Top Professional Emblem */}
       <div className="flex flex-col items-center gap-6">
         <div 
           onClick={() => setActiveView('dashboard')}
-          className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-teal-500 to-emerald-400 p-[1px] shadow-lg shadow-teal-500/20 cursor-pointer hover:scale-105 transition-transform flex items-center justify-center"
+          className="w-10 h-10 rounded-xl bg-teal-600 flex items-center justify-center text-white shadow-sm cursor-pointer hover:opacity-95 transition-all active:scale-95"
+          title="SmartInterview AI"
         >
-          <div className="w-full h-full bg-white dark:bg-[#111827] rounded-[15px] flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-teal-500 dark:text-teal-400" />
-          </div>
+          <Code2 className="w-5 h-5" />
         </div>
 
         {/* Navigation Icon List */}

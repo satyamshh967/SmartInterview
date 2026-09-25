@@ -64,13 +64,96 @@ const INITIAL_CANDIDATES: CandidateItem[] = [
   }
 ];
 
+const ACCENT_MAP: Record<AccentColor, { [shade: number]: string }> = {
+  blue: {
+    50: '239 246 255',
+    100: '219 234 254',
+    200: '191 219 254',
+    300: '147 197 253',
+    400: '96 165 250',
+    500: '59 130 246',
+    600: '37 99 235',
+    700: '29 78 216',
+    800: '30 64 175',
+    900: '30 58 138',
+    950: '23 37 84'
+  },
+  teal: {
+    50: '240 253 250',
+    100: '204 251 241',
+    200: '153 246 228',
+    300: '94 234 212',
+    400: '45 212 191',
+    500: '20 184 166',
+    600: '13 148 136',
+    700: '15 118 110',
+    800: '17 94 89',
+    900: '19 78 74',
+    950: '4 47 46'
+  },
+  emerald: {
+    50: '236 253 245',
+    100: '209 250 229',
+    200: '167 243 208',
+    300: '110 231 183',
+    400: '52 211 153',
+    500: '16 185 129',
+    600: '5 150 105',
+    700: '4 120 87',
+    800: '6 95 70',
+    900: '6 78 59',
+    950: '2 44 34'
+  },
+  cyan: {
+    50: '236 254 255',
+    100: '207 250 254',
+    200: '165 243 252',
+    300: '103 232 249',
+    400: '34 211 238',
+    500: '6 182 212',
+    600: '8 145 178',
+    700: '14 116 144',
+    800: '21 94 117',
+    900: '22 78 99',
+    950: '8 51 68'
+  },
+  amber: {
+    50: '255 251 235',
+    100: '254 243 199',
+    200: '253 230 138',
+    300: '252 211 77',
+    400: '251 191 36',
+    500: '245 158 11',
+    600: '217 119 6',
+    700: '180 83 9',
+    800: '146 64 14',
+    900: '120 53 15',
+    950: '69 26 3'
+  },
+  slate: {
+    50: '248 250 252',
+    100: '241 245 249',
+    200: '226 232 240',
+    300: '203 213 225',
+    400: '148 163 184',
+    500: '100 116 139',
+    600: '71 85 105',
+    700: '51 65 85',
+    800: '30 41 59',
+    900: '15 23 42',
+    950: '2 6 23'
+  }
+};
+
 export function App() {
-  // Theme state: defaults to 'light' (Clean All-White)
-  const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
-    return (localStorage.getItem('app-theme-mode') as ThemeMode) || 'light';
-  });
+  // Theme state: default strictly to 'light' (Clean All-White)
+  const [themeMode, setThemeMode] = useState<ThemeMode>('light');
   const [accentColor, setAccentColor] = useState<AccentColor>(() => {
-    return (localStorage.getItem('app-accent-color') as AccentColor) || 'teal';
+    const saved = localStorage.getItem('app-accent-color');
+    if (saved && ['blue', 'teal', 'emerald', 'cyan', 'amber', 'slate'].includes(saved)) {
+      return saved as AccentColor;
+    }
+    return 'blue';
   });
 
   const [activeView, setActiveView] = useState<string>('dashboard');
@@ -99,7 +182,14 @@ export function App() {
     localStorage.setItem('app-theme-mode', themeMode);
   }, [themeMode]);
 
+  // Apply accent directly to DOM root style & attribute
   useEffect(() => {
+    const root = document.documentElement;
+    root.setAttribute('data-accent', accentColor);
+    const shades = ACCENT_MAP[accentColor] || ACCENT_MAP.blue;
+    Object.entries(shades).forEach(([shade, rgb]) => {
+      root.style.setProperty(`--color-accent-${shade}`, rgb);
+    });
     localStorage.setItem('app-accent-color', accentColor);
   }, [accentColor]);
 

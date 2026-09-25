@@ -283,9 +283,45 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           >
             <div className="text-xs font-bold text-slate-900 dark:text-white">Obsidian Dark</div>
             <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-normal">
-              Deep midnight canvas with dark slate cards & glowing teal accents.
+              Deep midnight canvas with dark slate cards & high-contrast accents.
             </div>
           </button>
+        </div>
+
+        {/* Accent Brand Palette */}
+        <div className="pt-4 border-t border-slate-100 dark:border-white/5 space-y-2.5">
+          <label className="text-xs font-bold text-slate-900 dark:text-white block">
+            Brand Accent Palette
+          </label>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+            {[
+              { id: 'blue', label: 'Linear Blue', hex: '#2563EB', bg: 'bg-[#2563EB]' },
+              { id: 'teal', label: 'Precision Teal', hex: '#0D9488', bg: 'bg-[#0D9488]' },
+              { id: 'emerald', label: 'Terminal Emerald', hex: '#059669', bg: 'bg-[#059669]' },
+              { id: 'cyan', label: 'Nordic Steel Cyan', hex: '#0891B2', bg: 'bg-[#0891B2]' },
+              { id: 'amber', label: 'Industrial Amber', hex: '#D97706', bg: 'bg-[#D97706]' },
+              { id: 'slate', label: 'Carbon Slate', hex: '#475569', bg: 'bg-[#475569]' }
+            ].map((a) => {
+              const isSelected = currentAccent === a.id;
+              return (
+                <button
+                  key={a.id}
+                  type="button"
+                  onClick={() => onSelectAccent && onSelectAccent(a.id)}
+                  className={`p-2.5 rounded-xl border flex items-center gap-2.5 transition-all ${
+                    isSelected
+                      ? 'border-slate-900 dark:border-white bg-slate-50 dark:bg-white/5 shadow-sm'
+                      : 'border-slate-200 dark:border-white/5 hover:border-slate-300'
+                  }`}
+                >
+                  <span className={`w-3.5 h-3.5 rounded-full ${a.bg} flex-shrink-0 shadow-sm`} />
+                  <span className="text-xs font-medium text-slate-800 dark:text-slate-200">
+                    {a.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
